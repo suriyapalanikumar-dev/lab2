@@ -21,11 +21,38 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //use cookie parser to parse request headers
 app.use(cookieParser());
 //use session to store user data between HTTP requests
-app.use(session({
-    secret: 'cmpe_273_secure_string',
-    resave: false,
-    saveUninitialized: true
-}));
+// app.use(session({
+//     secret: 'cmpe_273_secure_string',
+//     resave: false,
+//     saveUninitialized: true
+// }));
+
+
+var mysql = require('mysql');
+RDS_HOSTNAME = "db-etsy-prototype.c7k9u8fpyl8e.us-east-2.rds.amazonaws.com"
+RDS_USERNAME = "admin"
+RDS_PASSWORD = "admin123"
+RDS_PORT = "3306"
+RDS_DATABASE = "dbetsy"
+
+var connection = mysql.createConnection({
+  host     : RDS_HOSTNAME,
+  user     : RDS_USERNAME,
+  password : RDS_PASSWORD,
+  port     : RDS_PORT,
+  database : RDS_DATABASE
+});
+
+connection.connect(function(err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+    return;
+  }
+
+  console.log('Connected to database.');
+});
+
+connection.end();
 
 
 var server = app.listen(3000, function () {
