@@ -3,6 +3,7 @@ import '../../App.css';
 import { Row, Col,  Input, Button, Modal } from 'antd';
 import 'antd/dist/antd.css';
 import '../../css/Custom.css';
+import Login from '../Login/Login.jsx';
 import {
     ShoppingCartOutlined
   } from '@ant-design/icons';
@@ -43,7 +44,7 @@ class Navbar extends Component
                     onOk={() => this.setModal2Visible(false)}
                     onCancel={() => this.setModal2Visible(false)}
                     >
-                        
+                        <Login/>
                 </Modal>
             </div>            
         )
