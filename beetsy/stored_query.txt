@@ -1,0 +1,17 @@
+# Alter Data Column
+ALTER TABLE dbetsy.User
+ADD COLUMN token varchar(100);
+
+#Auto increment
+ALTER TABLE dbetsy.User MODIFY COLUMN userid INT auto_increment
+
+# Item TABLE
+CREATE TABLE `dbetsy`.`Item` (
+	itemid int auto_increment primary key,
+	itemname varchar(20),
+	itemcount int,
+	itemphoto varchar(20),
+	itemcategory varchar(20),
+	itemdesc varchar(50),
+	price float
+);
