@@ -6,6 +6,7 @@ var mysqlconnection = mysql.createConnection({
   password : RDS_PASSWORD,
   database : RDS_DATABASE,
   port : RDS_PORT,
+  multipleStatements: true
 });
 
 

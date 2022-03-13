@@ -13,16 +13,17 @@ app.use(express.json());
 
 const { API_PORT } = process.env;
 const port =  API_PORT;
-console.log(API_PORT)
+// console.log(API_PORT)
 
 const authenticatectrl = require('./controllers/authenticate-controller.js')
+const shopctrl = require('./controllers/shop-controller.js')
 
 app.post("/register", authenticatectrl.registeruser)
 app.post("/login", authenticatectrl.loginuser)
+app.get("/checkshopname", shopctrl.isshopnameavailabile)
+app.post("/createshopdetails", shopctrl.createshopname)
+app.get("/displayshopdetails", shopctrl.getshopdetails)
 
-app.post("/welcome", auth, (req, res) => {
-  res.status(200).send("Welcome 🙌 ");
-}); 
 
 // server listening 
 app.listen(port, () => {

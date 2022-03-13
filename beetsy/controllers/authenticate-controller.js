@@ -29,13 +29,11 @@ module.exports.registeruser = async(req, res) =>{
     connection.query(sql, values, function (error, results, fields) {
         if (error) {
           console.log(error);
-          res.json({
-            status: 500,
+          res.status(500).json({
             message: error.sqlMessage
           })
         } else {
-          res.json({
-            status: 200,
+          res.status(200).json({
             data: results,
             message: 'User Registered Sucessfully'
           })
@@ -59,8 +57,7 @@ module.exports.loginuser = async(req, res) =>{
     else {
     if( password == results[0].password)
     {
-      res.json({
-        status: 200,
+      res.status(200).json({
         data: {userid:results[0].userid, token:results[0].token},
         message: 'User Login Successful'
       })
@@ -69,8 +66,7 @@ module.exports.loginuser = async(req, res) =>{
       message = "Incorrect Password"
     }
   }
-    res.json({
-      status: 500,
+    res.status(500).json({
       message: message
     })
   })
