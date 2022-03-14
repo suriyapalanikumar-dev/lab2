@@ -1,4 +1,6 @@
 const connection = require("../config/database.js")
+
+
 module.exports.isshopnameavailabile = (req, res) =>{
     const {shopname} = req.body
     const sql = `select * from dbetsy.Shop where shopname= ?`;
@@ -79,4 +81,3 @@ module.exports.getshopdetails = (req, res) =>{
         }
     });
 }
-
