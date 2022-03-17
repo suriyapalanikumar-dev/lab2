@@ -35,7 +35,7 @@ module.exports.registeruser = async(req, res) =>{
         } else {
           res.status(200).json({
             data: results,
-            message: 'User Registered Sucessfully'
+            message: 'User Registered Successfully'
           })
         }
       });
@@ -49,10 +49,14 @@ module.exports.loginuser = async(req, res) =>{
     //console.log(results)
     if(error)
     {
-      message =  error.sqlMessage
+      res.status(500).json({
+        message: error.sqlMessage
+      })
     }
     else if (results.length<1) {
-      message= "Please register before Login"
+      res.status(500).json({
+        message: "Please register before logging in"
+      })
     }
     else {
     if( password == results[0].password)
@@ -63,13 +67,13 @@ module.exports.loginuser = async(req, res) =>{
       })
     }
     else{
-      message = "Incorrect Password"
+      res.status(500).json({
+        message: "Incorrect Password"
+      })
     }
   }
-    res.status(500).json({
-      message: message
-    })
   })
 }
 
 
+ 
