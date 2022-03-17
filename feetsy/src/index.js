@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import "./App.css";
+// importing components from react-router-dom package
+
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
