@@ -12,7 +12,8 @@ const Login = () =>{
     const [passwordr, setPasswordr] = useState("")
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")  
+    const [password, setPassword] = useState("")
+     
 
     const navigateRegister = (e) =>{
         setLoginEnabled(false)
@@ -66,13 +67,15 @@ const Login = () =>{
         }
         axios.post(process.env.REACT_APP_SERVER+'/login', data)
         .then(function (response){ 
-            localStorage.setItem("token", response["data"]["token"])
-            localStorage.setItem("userid", response["data"]["userid"])
+            localStorage.setItem("token", response["data"]["data"]["token"])
+            localStorage.setItem("userid", response["data"]["data"]["userid"])
+            alert("LogIn Successful")
         })
         .catch(function (err){
             alert("Login not Successful. "+err)
             console.log(err)})
     }
+
     return(
         <div>
             {loginEnabled?

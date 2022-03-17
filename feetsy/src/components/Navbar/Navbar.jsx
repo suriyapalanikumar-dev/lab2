@@ -1,54 +1,76 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import '../../App.css';
-import { Row, Col,  Input, Button, Modal } from 'antd';
+import { Row, Col,  Input, Button, Modal, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 import '../../css/Custom.css';
 import Login from '../Login/Login.jsx';
 import {
-    ShoppingCartOutlined
+    ShoppingCartOutlined, HeartOutlined, ShopOutlined, LoginOutlined, UserOutlined, RightSquareFilled
   } from '@ant-design/icons';
 const { Search } = Input;
-class Navbar extends Component
+const Navbar  = () =>
 {
-    state = {
-        modal2Visible: false,
-    };
-    setModal2Visible(modal2Visible) {
-        this.setState({ modal2Visible });
+    const [modal2Visible, setModal2Visible] = useState(false)
+    const [isLoggedIn, setisLoggedIn] = useState(false)
+    const setPanel = () =>{
+        setModal2Visible(false)
+        setisLoggedIn(true)
     }
-    
-    render()
-    {
-        return (
-            <div className="navf">
-                <Row>
-                    <Col span={3}>
-                        <span className="appname">Etsy</span>
-                    </Col>
-                    <Col span={18}>
-                        <Search size="large" placeholder="Search for anything" className='searchitem' enterButton />
-                    </Col>
-                    <Col span={3}>
-                        <Row>
-                            <Col span={12} style={{paddingRight:"0px"}}> 
-                                <Button type="dashed" className="signin" onClick={() => this.setModal2Visible(true)}>Sign In</Button>
+    return (
+        <div className="navf">
+            <Row>
+                <Col span={3}>
+                    <span className="appname">Etsy</span>
+                </Col>
+                <Col span={18}>
+                    <Search size="large" placeholder="Search for anything" className='searchitem' enterButton />
+                </Col>
+
+                <Col span={3}>
+                    
+                        {!isLoggedIn ?
+                            <Row>
+                            <Col span={24} style={{padding:"0px"}}>
+                            <Tooltip title="Sign In">
+                                <Button type="dashed" className="signin" onClick={() => setModal2Visible(true)}>Sign In</Button>
+                            </Tooltip>
                             </Col>
-                            <Col span={12} style={{padding:"0px"}}>
+                            </Row>
+                            :
+                            <Row>
+                            <Col span={6} style={{padding:"0px"}}>
+                            <Tooltip title="Favorite">
+                                <Button icon={<HeartOutlined />} size="large" />
+                            </Tooltip>
+                            </Col>
+                            <Col span={6} style={{paddingRight:"0px"}}> 
+                            <Tooltip title="Sell Items">
+                                <Button icon={<ShopOutlined />} size="large"/>
+                            </Tooltip> 
+                            </Col>
+                            <Col span={6} style={{padding:"0px"}}>
+                            <Tooltip title="Cart">
                                 <Button icon={<ShoppingCartOutlined />} size="large" />
+                            </Tooltip>
+                            </Col>
+                            <Col span={6} style={{padding:"0px"}}>
+                            <Tooltip title="LoggedIn Details">
+                                <Button icon={<UserOutlined />} size="large" />
+                            </Tooltip>
                             </Col>
                         </Row>
-                    </Col>
-                </Row>
-                <Modal
-                    visible={this.state.modal2Visible}
-                    onOk={() => this.setModal2Visible(false)}
-                    onCancel={() => this.setModal2Visible(false)}
-                    >
-                        <Login/>
-                </Modal>
-            </div>            
-        )
-    }l
+                        }
+                </Col>
+            </Row>
+            <Modal
+                visible={modal2Visible}
+                onOk={() => setPanel()}
+                onCancel={() => setPanel()}
+                >
+                    <Login/>
+            </Modal>
+        </div>            
+    )
 
 }
 
