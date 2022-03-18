@@ -17,6 +17,7 @@ var storage = multer.diskStorage({
     cb(null, './uploads')
   },
   filename: function (req, file, cb) {
+    //console.log(file)
     cb(null, Date.now()+'-'+file.originalname)
   }
 })
@@ -42,6 +43,7 @@ app.get("/checkshopname", shopctrl.isshopnameavailabile)
 app.post("/createshopdetails", shopctrl.createshopname)
 app.get("/displayshopdetails", shopctrl.getshopdetails)
 app.post("/uploadshopdp",upload.single('profile-file'), imgctrl.uploadpic)
+app.post("/updateshopimgdb", shopctrl.updateshopimage)
 app.get("/image/:key",imgctrl.retrieveImg)
 
 

@@ -32,11 +32,11 @@ module.exports.isshopnameavailabile = (req, res) =>{
 }
 
 module.exports.createshopname = (req, res) =>{
-    const {shopname, userid} = req.body
+    const {shopname, ownerid} = req.body
     const sql = `INSERT INTO dbetsy.Shop (shopname, ownerid) VALUES(?,?);`
     const values = [
         shopname, 
-        userid
+        ownerid
     ]
     connection.query(sql, values, function (error, results, fields) {
         if (error) {
@@ -52,6 +52,30 @@ module.exports.createshopname = (req, res) =>{
         }
     });
 }
+
+module.exports.updateshopimage = (req, res) =>{
+  const {imgname,shopname, userid} = req.body
+    const sql = `update dbetsy.Shop set simgname=? where shopname=? and ownerid=?`
+    const values = [
+        imgname,
+        shopname, 
+        userid
+    ]
+    connection.query(sql, values, function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.status(500).json({
+            message: error.sqlMessage
+          })
+        } else {
+          res.status(200).json({
+            data: results,
+            message: 'Image updated Sucessfully'
+          })
+        }
+    });
+}
+
 
 module.exports.getshopdetails = (req, res) =>{
     const {shopname, userid} = req.body

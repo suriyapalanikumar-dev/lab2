@@ -24,7 +24,8 @@ const CheckName = () =>{
     const updateName = (e) =>{
         setShopName(e.target.value)
     }
-    const checkNameAvailability = () =>{
+    const checkNameAvailability = (e) =>{
+        e.preventDefault();
         setSuccessVisibility("hidden")
         let data = {
             "shopname":shopName
@@ -38,7 +39,7 @@ const CheckName = () =>{
                     setSuccessMessage("Congratulations!"+shopName+" is available to create :)")
                     setColorVisibility("green")
                     setSuccessVisibility("visible")
-                    localStorage.setItem("shopname", shopName.toUpperCase())
+                    localStorage.setItem("shopname", shopName)
                 }
                 else{
                     setSuccessMessage("Sorry! "+shopName+"has already been taken:)")
@@ -58,12 +59,15 @@ const CheckName = () =>{
 
     const createShopProfile = (e) =>{
         e.preventDefault();
-        setredirectShop(true)
+        axios.post(process.env.REACT_APP_SERVER+'/createshopdetails', {'shopname':shopName, 'ownerid':localStorage.getItem("userid")})
+        .then(response=>{
+            alert("Shop Profile Creation Successful")
+        })
+         setredirectShop(true)
     }
 
     if(isredirectShop)
     {
-    alert("Hai")
        return <Navigate replace to="/shopdetails" />;
     }
 
@@ -77,7 +81,7 @@ const CheckName = () =>{
                     <h4>Choose a memorable name that reflects your style</h4>
                     <Input.Group compact>
                     <Input size="large" style={{ width: 'calc(100% - 200px)' }} placeholder='Type your shop name here' onChange= {e=>updateName(e)} />
-                    <Button size="large" onClick={()=>checkNameAvailability()}>Check Availability</Button>
+                    <Button size="large" onClick={(e)=>checkNameAvailability(e)}>Check Availability</Button>
                   </Input.Group>
                   <br/>
                   <p align="center">Requirements: Name should have 5-15 characters with no special characters</p>

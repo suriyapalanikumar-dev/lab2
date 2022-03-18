@@ -14,25 +14,11 @@ module.exports.uploadpic = (req, res, next) => {
         "useretsy-admin" : "User"
     }
     const result = await uploadFile(req.file);
-    console.log("S3 response", result);
     await unlinkFile(req.file.path);
-    if(result["data"]["key"].includes("shopetsy-admin"))
-    {
-        table = tabledata["shopetsy-admin"]
-    }
-    else if(result["data"]["key"].includes("itemetsy-admin"))
-    {
-        table = tabledata["itemetsy-admin"]
-    }
-    else{
-        table = tabledata["useretsy-admin"]
-    }
-    // var sql = ``
-    // connection.query()
-    res.send({
+    res.status(200).json({
       status: "success",
       message: "File uploaded successfully",
-      data: result,
+      data:result
     });
   };
   middleware(req, res, controller);
