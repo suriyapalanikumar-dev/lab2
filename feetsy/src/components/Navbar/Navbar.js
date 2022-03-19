@@ -3,19 +3,31 @@ import '../../App.css';
 import { Row, Col,  Input, Button, Modal, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 import '../../css/Custom.css';
-import Login from '../Login/Login.jsx';
+import Login from '../Login/Login.js';
 import {
     ShoppingCartOutlined, HeartOutlined, ShopOutlined, LoginOutlined, UserOutlined, RightSquareFilled
   } from '@ant-design/icons';
+import {Navigate} from 'react-router-dom'; 
 const { Search } = Input;
 const Navbar  = () =>
 {
     const [modal2Visible, setModal2Visible] = useState(false)
     const [isLoggedIn, setisLoggedIn] = useState(false)
+    const [isSellEnabled, setSellEnabled] = useState(false)
     const setPanel = () =>{
         setModal2Visible(false)
         setisLoggedIn(true)
     }
+
+    const sellroute = (e) =>{
+        setSellEnabled(true)
+    }
+
+    if(isSellEnabled)
+    {
+        return <Navigate replace to="/sell" />
+    }
+
     return (
         <div className="navf">
             <Row>
@@ -45,7 +57,7 @@ const Navbar  = () =>
                             </Col>
                             <Col span={6} style={{paddingRight:"0px"}}> 
                             <Tooltip title="Sell Items">
-                                <Button icon={<ShopOutlined />} size="large"/>
+                                <Button icon={<ShopOutlined />} size="large" onClick={(e) =>sellroute(e)}/>
                             </Tooltip> 
                             </Col>
                             <Col span={6} style={{padding:"0px"}}>

@@ -5,7 +5,14 @@ ADD COLUMN token varchar(100);
 #Auto increment
 ALTER TABLE dbetsy.User MODIFY COLUMN userid INT auto_increment
 
-# Item TABLE
+# Item and Shop TABLE
+
+CREATE TABLE `dbetsy`.`Shop` (
+	shopname varchar(20) primary key,
+	ownerid varchar(20),
+	simgname varchar(20)
+);
+
 CREATE TABLE `dbetsy`.`Item` (
 	itemid int auto_increment primary key,
 	itemname varchar(20),
@@ -13,5 +20,7 @@ CREATE TABLE `dbetsy`.`Item` (
 	itemphoto varchar(20),
 	itemcategory varchar(20),
 	itemdesc varchar(50),
-	price float
+	price float,
+    shopname varchar(20),
+    foreign key (shopname) references `dbetsy`.`Shop`(shopname)
 );

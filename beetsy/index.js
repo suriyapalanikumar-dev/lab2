@@ -36,15 +36,20 @@ const port =  API_PORT;
 const authenticatectrl = require('./controllers/authenticate-controller.js')
 const shopctrl = require('./controllers/shop-controller.js')
 const imgctrl = require("./controllers/image-controller.js")
+const itemctrl = require("./controllers/item-controller.js")
+const dashctrl = require("./controllers/dashboard-controller.js")
 
 app.post("/register", authenticatectrl.registeruser)
 app.post("/login", authenticatectrl.loginuser)
 app.get("/checkshopname", shopctrl.isshopnameavailabile)
 app.post("/createshopdetails", shopctrl.createshopname)
-app.get("/displayshopdetails", shopctrl.getshopdetails)
+app.post("/displayshopdetails", shopctrl.getshopdetails)
 app.post("/uploadshopdp",upload.single('profile-file'), imgctrl.uploadpic)
 app.post("/updateshopimgdb", shopctrl.updateshopimage)
 app.get("/image/:key",imgctrl.retrieveImg)
+app.get("/getshopimage", shopctrl.getShopImage)
+app.post("/additem",itemctrl.enrollItem)
+app.post("/fetchItems", dashctrl.dashboardFetch)
 
 
 // server listening 

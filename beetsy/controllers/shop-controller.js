@@ -79,13 +79,21 @@ module.exports.updateshopimage = (req, res) =>{
 
 module.exports.getshopdetails = (req, res) =>{
     const {shopname, userid} = req.body
+
     const sql = `Use dbetsy;
-    select Item.*, Shop.*,ShoppedItem.*, User.name, User.email  from Shop left join ShoppedItem on Shop.shopnum = ShoppedItem.shopnum 
-	left join Item on ShoppedItem.itemid = Item.itemid  
-    left join User on User.userid=Shop.ownerid and Shop.shopname=?;`
+    select Item.*, Shop.*,Purchase.purchasecount, User.usernaame, User.email  from Shop left join Item on Shop.shopname = Item.shopname
+	left join Purchase on Purchase.purchasename = Item. itemname
+    left join User on User.userid=Shop.ownerid where Shop.shopname=?;`
+  //   const sql = `Use dbetsy;
+  //   select Item.*, Shop.*,ShoppedItem.*, User.name, User.email  from Shop left join ShoppedItem on Shop.shopnum = ShoppedItem.shopnum 
+	// left join Item on ShoppedItem.itemid = Item.itemid  
+  //   left join User on User.userid=Shop.ownerid;`
+
     const values = [
-        shopname, 
+        shopname
+
     ]
+    console.log(values)
     connection.query(sql, values, function (error, results, fields) {
         if (error) {
           console.log(error);
@@ -99,8 +107,30 @@ module.exports.getshopdetails = (req, res) =>{
             owner = true
          }
           res.status(200).json({
-            data: {"data": results[1][0], "isowner":owner},
+            data: {"data": results[1], "isowner":owner},
             message: 'Retrieved Shop details successfully'
+          })
+        }
+    });
+}
+
+module.exports.getShopImage = (req, res) =>{
+  const {shopname} = req.body
+  console.log(shopname)
+    const sql = `select simgname from dbetsy.Shop where shopname=?`
+    const values = [
+        shopname
+    ]
+    connection.query(sql, values, function (error, results, fields) {
+        if (error) {
+          console.log(error);
+          res.status(500).json({
+            message: error.sqlMessage
+          })
+        } else {
+          res.status(200).json({
+            data: results,
+            message: 'Image name retrieved Sucessfully'
           })
         }
     });

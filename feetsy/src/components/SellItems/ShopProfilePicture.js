@@ -6,6 +6,8 @@ import '../../css/Custom.css';
 import axios, {post} from 'axios';
 import { changeConfirmLocale } from 'antd/lib/modal/locale';
 
+
+
 const ShopProfilePicture = () =>{
     const [filestore, setStoreFile] = useState(null)
     const changeFile = (e) =>{

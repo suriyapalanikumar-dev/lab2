@@ -16,7 +16,7 @@ module.exports.registeruser = async(req, res) =>{
         }
     );
     
-    const sql = `INSERT INTO dbetsy.User (userid, name, email, password, token) VALUES(?,?,?,?,?);`;
+    const sql = `INSERT INTO dbetsy.User (userid, usernaame, email, password, token) VALUES(?,?,?,?,?);`;
     const values = [
         userid, 
         username,
