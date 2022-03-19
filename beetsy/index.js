@@ -38,6 +38,7 @@ const shopctrl = require('./controllers/shop-controller.js')
 const imgctrl = require("./controllers/image-controller.js")
 const itemctrl = require("./controllers/item-controller.js")
 const dashctrl = require("./controllers/dashboard-controller.js")
+const favtctrl = require("./controllers/favorite-controller.js")
 
 app.post("/register", authenticatectrl.registeruser)
 app.post("/login", authenticatectrl.loginuser)
@@ -50,6 +51,9 @@ app.get("/image/:key",imgctrl.retrieveImg)
 app.get("/getshopimage", shopctrl.getShopImage)
 app.post("/additem",itemctrl.enrollItem)
 app.post("/fetchItems", dashctrl.dashboardFetch)
+app.post("/makefavorite", favtctrl.setFavorite)
+app.post("/fetchfavorite", favtctrl.fetchFavorite)
+app.post("/fetchItem", itemctrl.fetchItem)
 
 
 // server listening 

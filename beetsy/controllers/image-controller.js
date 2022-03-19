@@ -29,4 +29,4 @@ module.exports.retrieveImg = (req, res) => {
     const readStream = getFileStream(key);
     readStream.pipe(res);
 }
-  
+

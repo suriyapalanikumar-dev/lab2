@@ -9,8 +9,10 @@ import clothing from '../../images/clothing.jpg';
 import entertainment from '../../images/entertainment.jpg';
 import jewellery from '../../images/jewellery.jpg';
 import {
-    HeartOutlined
+    HeartOutlined,
+    HeartFilled
   } from '@ant-design/icons';
+
 
 const {Meta} = Card;
 
@@ -20,7 +22,9 @@ const Dashboard = () =>{
     const [card1name, setCard1name] = useState("")
     const [card1price, setCard1price] = useState("")
     const [card1Image, setCard1Image] = useState(null)
-
+    const [card1id, setCard1Id] = useState("")
+    const [isFavorite, setisFavorite] = useState(false)
+    const [isnavigateOverview, setNavigateOverview] = useState(false)
 
 
     const getItemDetails = (data) =>{
@@ -30,11 +34,22 @@ const Dashboard = () =>{
            setCard1name(temp["data"][0]["itemname"])
            setCard1price(temp["data"][0]["price"])
            setCard1Image(process.env.REACT_APP_SERVER+"/image/"+temp["data"][0]["itemphoto"])
-           //console.log(temp["data"][0]["itemname"])
+           setCard1Id(temp["data"][0]["itemid"])
+           
         })
         .catch(function (err){
             alert(err)
             console.log(err)})
+    }
+
+    const setFavorite = (data) =>{
+      axios.post(process.env.REACT_APP_SERVER+"/makefavorite",{"itemid":data, "userid":localStorage.getItem("userid")})
+        .then(response =>{
+            if(response.status==200)
+            {
+                setisFavorite(true)
+            }
+        })
     }
 
     const retrieveImages = (e) =>{
@@ -47,9 +62,16 @@ const Dashboard = () =>{
         
     }
 
-    // useEffect = () =>{
-    //     getItemDetails({"category":categorySelected})
-    // }
+    const navigateOverview = (cardid) =>{
+      localStorage.setItem("itemid", cardid)
+      setNavigateOverview(true)
+    }
+
+    if(isnavigateOverview)
+    {
+      return <Navigate replace to="/shopoverview"/>
+    }
+
 
     return (
     <div style={{paddingTop:"5%", paddingLeft:"2%", paddingRight:"2%",paddingBotton:"2%", width:"100%", height:"100%"}}>
@@ -121,14 +143,21 @@ const Dashboard = () =>{
     hoverable
     style={{ width: "75%", height:"50%" }}
     cover={<img alt="example" src={card1Image} />}
+      onClick = {(e)=>navigateOverview(card1id)}
     >
     <div>
     <Row>
       <Col span={21}>
-        {card1name}
+      <p>
+        <span>{card1name}</span>
+        <span style={{visibility:"hidden"}}>{card1id}</span>
+      </p>
+
       </Col>
       <Col span={3}>
-      <HeartOutlined />
+      {
+        isFavorite ? <HeartFilled /> : <HeartOutlined onClick = {(e)=>setFavorite(card1id)}/>
+      } 
       </Col>
     </Row>
     </div>
