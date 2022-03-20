@@ -4,7 +4,9 @@ import { Row, Col,  Input, Button, Modal } from 'antd';
 import 'antd/dist/antd.css';
 import '../../css/Custom.css';
 import axios from 'axios';
-
+import { useDispatch,useSelector } from 'react-redux';
+import { register } from '../../features/userSlice';
+import { authenticateUser, login, logout } from '../../features/userSlice';
 const Login = () =>{
 
     const [loginEnabled, setLoginEnabled] = useState(true)
@@ -13,7 +15,8 @@ const Login = () =>{
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-     
+    const dispatch = useDispatch();
+    const loguser = useSelector(authenticateUser)
 
     const navigateRegister = (e) =>{
         setLoginEnabled(false)
@@ -47,6 +50,13 @@ const Login = () =>{
             email : emailr,
             password : passwordr
         }
+        dispatch(
+            register({
+              username : name,
+              email: emailr,
+              isLoggedIn: false
+            })
+          )
         //console.log(process.env.REACT_APP_SERVER)
         axios.post(process.env.REACT_APP_SERVER+'/register', data)
         .then(function (response){
@@ -61,14 +71,22 @@ const Login = () =>{
     const loginUser = (e) =>
     {
         e.preventDefault();
+
         const data = {
             email : email,
             password : password
         }
         axios.post(process.env.REACT_APP_SERVER+'/login', data)
         .then(function (response){ 
-            localStorage.setItem("token", response["data"]["data"]["token"])
-            localStorage.setItem("userid", response["data"]["data"]["userid"])
+            // localStorage.setItem("token", response["data"]["data"]["token"])
+            // localStorage.setItem("userid", response["data"]["data"]["userid"])
+            dispatch(login({
+            token: response["data"]["data"]["token"],
+            userid: response["data"]["data"]["userid"],
+            username:response["data"]["data"]["username"],
+            isLoggedIn: true
+              }))
+
             alert("LogIn Successful")
         })
         .catch(function (err){

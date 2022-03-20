@@ -62,7 +62,7 @@ module.exports.loginuser = async(req, res) =>{
     if( password == results[0].password)
     {
       res.status(200).json({
-        data: {userid:results[0].userid, token:results[0].token},
+        data: {userid:results[0].userid, token:results[0].token, username:results[0].usernaame},
         message: 'User Login Successful'
       })
     }
