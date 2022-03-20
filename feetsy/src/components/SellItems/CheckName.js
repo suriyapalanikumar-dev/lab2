@@ -68,13 +68,13 @@ const CheckName = () =>{
             setColorVisibility("red")
             setButtonDisabled(true)
             setSuccessVisibility("visible")
-        })
+        })  
 
     }
 
     const createShopProfile = (e) =>{
         e.preventDefault();
-        axios.post(process.env.REACT_APP_SERVER+'/createshopdetails', {'shopname':shopName, 'ownerid':loguser.username})
+        axios.post(process.env.REACT_APP_SERVER+'/createshopdetails', {'shopname':shopName, 'ownerid':loguser.userid})
         .then(response=>{
             alert("Shop Profile Creation Successful")
         })

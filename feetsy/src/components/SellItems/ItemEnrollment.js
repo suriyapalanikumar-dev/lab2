@@ -3,12 +3,17 @@ import {Row, Col, Card, Input, Button, Select} from 'antd';
 import 'antd/dist/antd.css';
 import axios,{post} from 'axios';
 import { Navigate } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { register } from '../../features/userSlice';
+import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
 
 const { Option } = Select;
 const {TextArea} = Input;
 
 
 const ItemEnrollment = () =>{
+    const dispatch = useDispatch();
+    const loguser = useSelector(authenticateUser)
     const [addname, setAddName] = useState("")
     const [addcategory, setAddcategory] = useState("")
     const [addquantity, setQuantity] = useState("")
@@ -45,7 +50,7 @@ const ItemEnrollment = () =>{
 
     const enrollItem = (e) =>
     {
-       e.preventDefault();
+      // e.preventDefault();
        let data = {
            "itemname" : addname,
            "itemcount": addquantity,
@@ -53,7 +58,7 @@ const ItemEnrollment = () =>{
            "itemcategory":addcategory,
            "itemdesc":adddesc,
            "price":addprice,
-           "shopname":localStorage.getItem("shopname")
+           "shopname":loguser["shopname"]
        }
        axios.post(process.env.REACT_APP_SERVER+'/addItem', data)
        .then(function (response){

@@ -3,19 +3,17 @@ import { useTable } from 'react-table';
 import ReactTable from "react-table-6";  
 import "react-table-6/react-table.css";
 
-const ItemDisplay = () =>{
+const ItemDisplayAdmin = () =>{
   const data = [{  
     Name: 'Table Cloth',  
     Category: 'Home Decore' ,
     Price:5.99,
-    Sold:0,
-    Quantity:2
+    Sold:2
     },{  
       Name: 'Glass Photo Frame',  
       Category: 'Party' ,
       Price:10.99,
-      Sold:0,
-      Quantity:2
+      Sold:2
       }]  
  const columns = [{  
    Header: 'Name',  
@@ -31,12 +29,7 @@ const ItemDisplay = () =>{
    {
    Header: 'Sold',  
    accessor: 'Sold'  
-   },
-   {
-    Header: 'Quantity',  
-    accessor: 'Quantity'  
-    }
-  ]  
+   }]  
   return (  
     <div>  
         <ReactTable  
@@ -49,4 +42,4 @@ const ItemDisplay = () =>{
 )  
 }
 
-export default ItemDisplay;
+export default ItemDisplayAdmin;

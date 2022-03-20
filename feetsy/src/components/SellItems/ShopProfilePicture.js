@@ -7,10 +7,13 @@ import axios, {post} from 'axios';
 //import { changeConfirmLocale } from 'antd/lib/modal/locale';
 import { useDispatch,useSelector } from 'react-redux';
 import { register } from '../../features/userSlice';
-import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
+import { authenticateUser, login, logout, shopSelect, shopImg} from '../../features/userSlice';
+import noimage from "../../images/noimage.png";
 
 
 const ShopProfilePicture = () =>{
+    const dispatch = useDispatch();
+    const loguser = useSelector(authenticateUser)
     const [filestore, setStoreFile] = useState(null)
     const changeFile = (e) =>{
         let data = e.target.files[0]
@@ -32,9 +35,17 @@ const ShopProfilePicture = () =>{
     const uploadImage = (e) =>{
         e.preventDefault()
         fileUpload(filestore).then((response)=>{
-            axios.post(process.env.REACT_APP_SERVER+'/updateshopimgdb', {'shopname':localStorage.getItem("shopname"), 'userid':localStorage.getItem("userid"),'imgname':response.data["data"]["Key"]})
+            axios.post(process.env.REACT_APP_SERVER+'/updateshopimgdb', {'shopname':loguser["shopname"], 'userid':loguser["userid"],'imgname':response.data["data"]["Key"]})
             .then(response=>{
                 console.log(response.data)
+                dispatch(shopImg({
+                    "token":loguser.token,
+                    "username":loguser.username,
+                    "userid": loguser.userid,
+                    "isLoggedIn":loguser.isLoggedIn,
+                    "shopname":loguser.shopname,
+                    "shopimg":process.env.REACT_APP_SERVER+"/image/"+response.data["data"]["Key"]
+                }))
             })
         })
     }

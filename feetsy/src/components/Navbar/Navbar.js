@@ -7,6 +7,7 @@ import Login from '../Login/Login.js';
 import {
     ShoppingCartOutlined, HeartOutlined, ShopOutlined, LoginOutlined, UserOutlined, RightSquareFilled
   } from '@ant-design/icons';
+
 import {Navigate} from 'react-router-dom'; 
 import { useDispatch,useSelector } from 'react-redux';
 import { authenticateUser, login, logout } from '../../features/userSlice';
@@ -20,6 +21,8 @@ const Navbar  = () =>
     const [isFavoriteEnabled, setisFavoritenabled] = useState(false)
     const [isCartEnabled, setCartEnabled] = useState(false)
     const [isLoggedOut, setLogout] = useState(false)
+    const [isProfilePage, setProfilePage] = useState(false)
+    const [isReturn,setReturn] = useState(false)
     const loguser = useSelector(authenticateUser)
     const dispatch = useDispatch();
     
@@ -62,6 +65,10 @@ const Navbar  = () =>
     {
         return <Navigate replace to="/cart"/>
     }
+    if(isReturn)
+    {
+        return <Navigate replace to="/"/>
+    }
 
     const logoutUser = () =>{
         dispatch(logout({
@@ -70,11 +77,19 @@ const Navbar  = () =>
         setisLoggedIn(false)
     }
 
+    if(isProfilePage)
+    {
+        return <Navigate replace to="/profile"/>
+    }
+
     const menu = (
         
         <Menu>
           <Menu.Item>
             <p>Welcome {loguser?loguser.username:null}</p>
+          </Menu.Item>
+          <Menu.Item>
+            <p onClick={(e)=>setProfilePage(true)}>Edit User Profile</p>
           </Menu.Item>
           <Menu.Item>
             <Button size="large" onClick={(e)=>logoutUser(e)}>Log Out</Button>
@@ -87,7 +102,7 @@ const Navbar  = () =>
         <div className="navf">
             <Row>
                 <Col span={3}>
-                    <span className="appname">Etsy</span>
+                    <span className="appname" onClick={(e)=>setReturn(true)}>Etsy</span>
                 </Col>
                 <Col span={18}>
                     <Search size="large" placeholder="Search for anything" className='searchitem' enterButton />

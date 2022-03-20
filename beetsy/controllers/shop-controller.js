@@ -40,6 +40,7 @@ module.exports.createshopname = (req, res) =>{
         shopname, 
         ownerid
     ]
+    console.log(values)
     connection.query(sql, values, function (error, results, fields) {
         if (error) {
           console.log(error);
@@ -80,7 +81,7 @@ module.exports.updateshopimage = (req, res) =>{
 
 
 module.exports.getshopdetails = (req, res) =>{
-    const {shopname} = req.body
+    const {shopname, userid} = req.body
 
     const sql = `Use dbetsy;
     select Item.*, Shop.*,Purchase.purchasecount, User.usernaame, User.email  from Shop left join Item on Shop.shopname = Item.shopname

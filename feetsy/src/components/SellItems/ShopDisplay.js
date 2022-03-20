@@ -3,16 +3,18 @@ import {Row, Col, Card, Input, Button, Modal} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import {
-    ShopOutlined, EditOutlined, FileAddOutlined
+    ShopOutlined, EditOutlined, FileAddOutlined, UnorderedListOutlined
   } from '@ant-design/icons';
 import ShopProfilePicture from './ShopProfilePicture';
 import ItemDisplay from './ItemDisplay';
+import ItemDisplayAdmin from './ItemDisplayadmin';
 import ItemEnrollment from './ItemEnrollment';
 import ItemUpdate from './ItemUpdate';
 import noimage from "../../images/noimage.png";
 import { useDispatch,useSelector } from 'react-redux';
 import { register } from '../../features/userSlice';
 import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
+import Navbar  from '../Navbar/Navbar';
 
 
 const {Meta} = Card;
@@ -27,11 +29,13 @@ const ShopDisplay = () =>{
     const [shopname, setShopName] = useState(loguser.shopname)
     const [ownername, setOwnerName] = useState("")
     const [owneremail, setownerEmail] = useState("")
-    
+    const [isNotOwner, setNotOwner] = useState(false)
+    const [isClick, setisClick] = useState(false)
 
     useEffect(() => {
         let data={
-            "shopname" : loguser.shopname
+            "shopname" : loguser.shopname,
+            "userid":loguser.userid
         }
         axios.post(process.env.REACT_APP_SERVER+"/displayshopdetails",data)
         .then(response=>{
@@ -43,6 +47,10 @@ const ShopDisplay = () =>{
                 //console.log(process.env.REACT_APP_SERVER+"/image/"+resp["data"][0]["simgname"])
                 setshopdp(process.env.REACT_APP_SERVER+"/image/"+resp["data"][0]["simgname"])
             }
+            // if(!resp["data"]["isowner"])
+            // {
+            //     setNotOwner(true)
+            // }
         })
         .catch(function (err){
             //alert(err)
@@ -50,7 +58,8 @@ const ShopDisplay = () =>{
     });
     const handleUpload = (e) =>{
         e.preventDefault();
-        let data = {"shopname":localStorage.getItem("shopname").toUpperCase()}
+        let data = {"shopname":loguser["shopname"]}
+        setshopdp(loguser.shopimg)
         setmodal3Visible(false)
     }
 
@@ -72,8 +81,10 @@ const ShopDisplay = () =>{
         setmodal5Visible(true)
     }
     return (
-        <div style={{margin:"1%"}}>
-        <Row>
+        <div >
+        <Navbar/>
+        <div style={{margin:"3%", borderColor:"black", borderStyle:"solid"}}>
+        <Row style={{marginLeft:"2%"}}>
             <Col span = {3}>
             <div >
         {/*  <ShopOutlined style={{fontSize:"500%"}}/>
@@ -93,10 +104,13 @@ const ShopDisplay = () =>{
             <Button type="primary"  onClick={(e) =>setmodal3Visible(true)} icon={<EditOutlined /> } >Edit Shop</Button>
 </div> */}
             <div style={{padding:"1%"}}>
-            <Button type="primary" icon={<FileAddOutlined />} onClick={(e)=>addItem(e)}> Add Item </Button>
+            <Button type="primary" icon={<FileAddOutlined />} onClick={(e)=>addItem(e)} disabled={isNotOwner}> Add Item </Button>
             </div>
             <div style={{padding:"1%"}}>
-            <Button type="primary" icon={<EditOutlined />} onClick={(e)=>editItem(e)}> Edit Item </Button>
+            <Button type="primary" icon={<EditOutlined />} onClick={(e)=>editItem(e)} disabled={isNotOwner}> Edit Item </Button>
+            </div>
+            <div style={{padding:"1%"}}>
+            <Button type="primary" icon={<UnorderedListOutlined />} onClick={(e)=>isClick(true)}> View Item Listing </Button>
             </div>
             </Col>
             <Col span={6}>
@@ -107,9 +121,9 @@ const ShopDisplay = () =>{
             <p>Contact Email: <span>{owneremail}</span></p>
             </Col>
         </Row>
-        <div>
+        <div style={{visibility:isClick}}>
         <p>Item Listing:</p>
-        <ItemDisplay/>
+        <ItemDisplayAdmin/>
         </div>
         <Modal
         visible={modal3Visible}
@@ -136,6 +150,7 @@ const ShopDisplay = () =>{
         >
             <ItemUpdate/>
         </Modal>
+        </div>
         </div>
     )
 }
