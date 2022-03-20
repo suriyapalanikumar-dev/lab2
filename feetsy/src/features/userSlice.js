@@ -20,10 +20,13 @@ export const userSlice = createSlice({
         },
         itemSelect:(state,action)=>{
             state.user = action.payload
+        },
+        shopSelect:(state,action)=>{
+            state.user=action.payload
         }
     }
 })
 
-export const {register, login, logout, dollarSelect, itemSelect} = userSlice.actions
+export const {register, login, logout, dollarSelect, itemSelect, shopSelect} = userSlice.actions
 export const authenticateUser = (state) => state.user.user
 export default userSlice.reducer;

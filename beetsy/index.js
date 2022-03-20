@@ -42,7 +42,7 @@ const favtctrl = require("./controllers/favorite-controller.js")
 
 app.post("/register", authenticatectrl.registeruser)
 app.post("/login", authenticatectrl.loginuser)
-app.get("/checkshopname", shopctrl.isshopnameavailabile)
+app.post("/checkshopname", shopctrl.isshopnameavailabile)
 app.post("/createshopdetails", shopctrl.createshopname)
 app.post("/displayshopdetails", shopctrl.getshopdetails)
 app.post("/uploadshopdp",upload.single('profile-file'), imgctrl.uploadpic)
@@ -55,8 +55,13 @@ app.post("/makefavorite", favtctrl.setFavorite)
 app.post("/fetchfavorite", favtctrl.fetchFavorite)
 app.post("/fetchItem", itemctrl.fetchItem)
 
+app.get("/makeconnection",(req,res)=>{
+  res.status(200).send({message:"Success"})
+})
 
 // server listening 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+module.exports = app

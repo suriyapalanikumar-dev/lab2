@@ -16,6 +16,7 @@ import ShoppingItemOverview from './components/ShoppingItemOverview/ShoppingItem
 import Footer from './components/Footer/Footer';
 import Cart from './components/Cart/Cart';
 import Example from './components/Example.js/Example';
+import UserProfile from './components/UserProfile.js/UserProfile';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
     <Route path="/footer" element={<Footer/>}/>
     <Route path="/cart" element={<Cart/>}/>
     <Route path="/example" element={<Example/>}/>
+    <Route path="/profile" element={<UserProfile/>}/>
     </Routes>
     </Router>
     </div>

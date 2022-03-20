@@ -5,6 +5,8 @@ module.exports.isshopnameavailabile = (req, res) =>{
     const {shopname} = req.body
     const sql = `select * from dbetsy.Shop where shopname= ?`;
     connection.query(sql, [shopname], function (error, results, fields) {
+        console.log(results)
+        console.log(error)
         var message = ""
         var flag = 0
         if(error)
@@ -78,7 +80,7 @@ module.exports.updateshopimage = (req, res) =>{
 
 
 module.exports.getshopdetails = (req, res) =>{
-    const {shopname, userid} = req.body
+    const {shopname} = req.body
 
     const sql = `Use dbetsy;
     select Item.*, Shop.*,Purchase.purchasecount, User.usernaame, User.email  from Shop left join Item on Shop.shopname = Item.shopname

@@ -4,8 +4,10 @@ import { Row, Col,  Input, Button, Modal } from 'antd';
 import 'antd/dist/antd.css';
 import '../../css/Custom.css';
 import axios, {post} from 'axios';
-import { changeConfirmLocale } from 'antd/lib/modal/locale';
-
+//import { changeConfirmLocale } from 'antd/lib/modal/locale';
+import { useDispatch,useSelector } from 'react-redux';
+import { register } from '../../features/userSlice';
+import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
 
 
 const ShopProfilePicture = () =>{

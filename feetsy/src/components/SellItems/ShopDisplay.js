@@ -10,20 +10,28 @@ import ItemDisplay from './ItemDisplay';
 import ItemEnrollment from './ItemEnrollment';
 import ItemUpdate from './ItemUpdate';
 import noimage from "../../images/noimage.png";
+import { useDispatch,useSelector } from 'react-redux';
+import { register } from '../../features/userSlice';
+import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
+
+
 const {Meta} = Card;
 
 const ShopDisplay = () =>{
+    const dispatch = useDispatch();
+    const loguser = useSelector(authenticateUser)
     const [modal3Visible, setmodal3Visible] = useState(false)
     const [modal4Visible, setmodal4Visible] = useState(false)
     const [modal5Visible, setmodal5Visible] = useState(false)
     const [shopdp, setshopdp] = useState(noimage)
-    const [shopname, setShopName] = useState(localStorage.getItem("shopname"))
+    const [shopname, setShopName] = useState(loguser.shopname)
     const [ownername, setOwnerName] = useState("")
     const [owneremail, setownerEmail] = useState("")
+    
 
     useEffect(() => {
         let data={
-            "shopname" : localStorage.getItem("shopname")
+            "shopname" : loguser.shopname
         }
         axios.post(process.env.REACT_APP_SERVER+"/displayshopdetails",data)
         .then(response=>{
@@ -37,7 +45,7 @@ const ShopDisplay = () =>{
             }
         })
         .catch(function (err){
-            alert(err)
+            //alert(err)
             console.log(err)})
     });
     const handleUpload = (e) =>{

@@ -3,6 +3,10 @@ import {Row, Col, Card, Input, Button} from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom'
+import Navbar from '../Navbar/Navbar';
+import { useDispatch,useSelector } from 'react-redux';
+import { register } from '../../features/userSlice';
+import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
 
 function hasSpecialChar(_string)
 {
@@ -20,6 +24,9 @@ const CheckName = () =>{
     const [colorVisibility, setColorVisibility] = useState("black")
     const [successMessage, setSuccessMessage] = useState("")
     const [isredirectShop, setredirectShop] = useState(false)
+    const [isbuttonDisabled, setButtonDisabled] = useState(true)
+    const dispatch = useDispatch();
+    const loguser = useSelector(authenticateUser)
 
     const updateName = (e) =>{
         setShopName(e.target.value)
@@ -30,40 +37,48 @@ const CheckName = () =>{
         let data = {
             "shopname":shopName
         }
-        axios.get(process.env.REACT_APP_SERVER+'/checkshopname', data)
+        axios.post(process.env.REACT_APP_SERVER+'/checkshopname', data)
         .then(function (response){
             if(!hasSpecialChar(shopName) && shopName.length>=5 && shopName.length<=15)
             {   
                 if(response.status==200)
                 {
+                    dispatch(shopSelect({
+                        "token" :loguser.token,
+                        "userid":loguser.userid,
+                        "username":loguser.username,
+                        "isLoggedIn":loguser.isLoggedIn,
+                        "shopname":shopName
+                    }))
                     setSuccessMessage("Congratulations!"+shopName+" is available to create :)")
                     setColorVisibility("green")
                     setSuccessVisibility("visible")
-                    localStorage.setItem("shopname", shopName)
-                }
-                else{
-                    setSuccessMessage("Sorry! "+shopName+"has already been taken:)")
-                    setColorVisibility("red")
-                    setSuccessVisibility("visible")
+                    setButtonDisabled(false)
+                    // console.log(dd)
+
                 }
             }
             else{
                 alert("Entered shopname has not met the requirements")
+                setButtonDisabled(true)
             }
         })
         .catch(function (err){
-            alert("User Registration not successful."+err)
+            setSuccessMessage("Sorry! The name '"+shopName+"' has already been taken:(")
+            setColorVisibility("red")
+            setButtonDisabled(true)
+            setSuccessVisibility("visible")
         })
 
     }
 
     const createShopProfile = (e) =>{
         e.preventDefault();
-        axios.post(process.env.REACT_APP_SERVER+'/createshopdetails', {'shopname':shopName, 'ownerid':localStorage.getItem("userid")})
+        axios.post(process.env.REACT_APP_SERVER+'/createshopdetails', {'shopname':shopName, 'ownerid':loguser.username})
         .then(response=>{
             alert("Shop Profile Creation Successful")
         })
-         setredirectShop(true)
+        setredirectShop(true)
     }
 
     if(isredirectShop)
@@ -72,6 +87,8 @@ const CheckName = () =>{
     }
 
     return (
+        <div>
+        <Navbar/>
         <div className="App" style={{marginTop:"10%"}}>
         <Row>
             <Col span={3}></Col>
@@ -87,13 +104,14 @@ const CheckName = () =>{
                   <p align="center">Requirements: Name should have 5-15 characters with no special characters</p>
                   <br/>
                   <p align="center" style={{color:colorVisibility, visibility:successVisibility}}>{successMessage}</p>
-                  <Button size="large" type="primary" shape="round" onClick={(e)=>createShopProfile(e)}>Create Shop Profile</Button>
+                  <Button size="large" type="primary" shape="round" disabled= {isbuttonDisabled} onClick={(e)=>createShopProfile(e)}>Create Shop Profile</Button>
                 </Card>
             </Col>
 
         </Row>
-
         </div>
+        </div>
+        
     )
 }
 
