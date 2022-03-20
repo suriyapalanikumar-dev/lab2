@@ -77,12 +77,13 @@ const Dashboard = () => {
   }
 
   const setFavorite = (data) => {
-    axios.post(process.env.REACT_APP_SERVER + "/makefavorite", { "itemid": data, "userid": localStorage.getItem("userid") })
-      .then(response => {
-        if (response.status == 200) {
-          setisFavorite(true)
-        }
-      })
+    // axios.post(process.env.REACT_APP_SERVER + "/makefavorite", { "itemid": data, "userid": localStorage.getItem("userid") })
+    //   .then(response => {
+    //     if (response.status == 200) {
+    //       setisFavorite(true)
+    //     }
+    //   })
+    alert("Favorite Set")
   }
 
   const retrieveImages = (e) => {
@@ -213,67 +214,229 @@ const Dashboard = () => {
           </Row>
         </div>
         <div style={{ marginTop: "2%", width: "100%", height: "50%", float: "left", paddingLeft:"2px" }}>
-          <h2><b>{categorySelected} Collection Preview</b></h2>
+          <h2><b> Collection Preview</b></h2>
           <Row>
             <Col span={6} style={{paddingLeft:"2%"}}>
               <Card
                 hoverable
                 style={{ width: "75%", height: "50%" }}
-                cover={<img alt="example" src={card1Image} onClick={(e) => navigateOverview(card1id)}/>}
+                cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805161678-art1.jpg'} onClick={(e) => navigateOverview(2)}/>}
                 
               >
                 <div>
                   <Row>
                     <Col span={21}>
                       <p>
-                        <span>{card1name}</span>
-                        <span style={{ visibility: "hidden" }}>{card1id}</span>
+                        <span>Art Lamp 1</span>
+                        <span style={{ visibility: "hidden" }}>2</span>
                       </p>
 
                     </Col>
                     <Col span={3}>
                       {
-                        isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(card1id)} />
+                        isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(2)} />
                       }
                     </Col>
                   </Row>
                 </div>
-                <p><b><span>{money}</span><span>{card1price}</span></b></p>
+                <p><b><span>USD </span><span>15 </span></b></p>
               </Card>
             </Col>
-            <Col span={6}>
-              <Card
-                hoverable
-                style={{ width: "75%", height: "50%" }}
-                cover={<img alt="example" src={homedecor} />}
-              >
-                <Meta title="Home Decor" />
-              </Card>
+            <Col span={6} style={{paddingLeft:"2%"}}>
+            <Card
+              hoverable
+              style={{ width: "75%", height: "50%" }}
+              cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805223561-art2.jpg'} onClick={(e) => navigateOverview(3)}/>}
+              
+            >
+              <div>
+                <Row>
+                  <Col span={21}>
+                    <p>
+                      <span>Art Lamp 2</span>
+                      <span style={{ visibility: "hidden" }}>3</span>
+                    </p>
+
+                  </Col>
+                  <Col span={3}>
+                    {
+                      isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(3)} />
+                    }
+                  </Col>
+                </Row>
+              </div>
+              <p><b><span>USD </span><span>7.49 </span></b></p>
+            </Card>
+          </Col>
+          <Col span={6} style={{paddingLeft:"2%"}}>
+          <Card
+            hoverable
+            style={{ width: "75%", height: "50%" }}
+            cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805657444-decor2.jpg'} onClick={(e) => navigateOverview(5)}/>}
+            
+          >
+            <div>
+              <Row>
+                <Col span={21}>
+                  <p>
+                    <span>Wall Stand</span>
+                    <span style={{ visibility: "hidden" }}>5</span>
+                  </p>
+
+                </Col>
+                <Col span={3}>
+                  {
+                    isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(5)} />
+                  }
+                </Col>
+              </Row>
+            </div>
+            <p><b><span>USD </span><span>25 </span></b></p>
+          </Card>
+        </Col>
+        <Col span={6} style={{paddingLeft:"2%"}}>
+        <Card
+          hoverable
+          style={{ width: "75%", height: "50%" }}
+          cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805276530-decor1.jpg'} onClick={(e) => navigateOverview(4)}/>}
+          
+        >
+          <div>
+            <Row>
+              <Col span={21}>
+                <p>
+                  <span>Softa Yellow</span>
+                  <span style={{ visibility: "hidden" }}>4</span>
+                </p>
+
+              </Col>
+              <Col span={3}>
+                {
+                  isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(4)} />
+                }
+              </Col>
+            </Row>
+          </div>
+          <p><b><span>USD </span><span>20 </span></b></p>
+        </Card>
+      </Col>
+
+          </Row>
+          <Row>
+          <Col span={6} style={{paddingLeft:"2%"}}>
+          <Card
+            hoverable
+            style={{ width: "75%", height: "50%" }}
+            cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805723209-decor3.jpg'} onClick={(e) => navigateOverview(6)}/>}
+            
+          >
+            <div>
+              <Row>
+                <Col span={21}>
+                  <p>
+                    <span>Headphones</span>
+                    <span style={{ visibility: "hidden" }}>6</span>
+                  </p>
+  
+                </Col>
+                <Col span={3}>
+                  {
+                    isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(6)} />
+                  }
+                </Col>
+              </Row>
+            </div>
+            <p><b><span>USD </span><span>30 </span></b></p>
+          </Card>
+        </Col>
+
+        <Col span={6} style={{paddingLeft:"2%"}}>
+        <Card
+          hoverable
+          style={{ width: "75%", height: "50%" }}
+          cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805784635-electronic1.jpg'} onClick={(e) => navigateOverview(7)}/>}
+          
+        >
+          <div>
+            <Row>
+              <Col span={21}>
+                <p>
+                  <span>Antic Decor</span>
+                  <span style={{ visibility: "hidden" }}>7</span>
+                </p>
+
+              </Col>
+              <Col span={3}>
+                {
+                  isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(7)} />
+                }
+              </Col>
+            </Row>
+          </div>
+          <p><b><span>USD </span><span>40 </span></b></p>
+        </Card>
+      </Col>
+
+      <Col span={6} style={{paddingLeft:"2%"}}>
+      <Card
+        hoverable
+        style={{ width: "75%", height: "50%" }}
+        cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805935918-electronic2.jpg'} onClick={(e) => navigateOverview(8)}/>}
+        
+      >
+        <div>
+          <Row>
+            <Col span={21}>
+              <p>
+                <span>Mobile Phone</span>
+                <span style={{ visibility: "hidden" }}>8</span>
+              </p>
+
             </Col>
-            <Col span={6}>
-              <Card
-                hoverable
-                style={{ width: "75%", height: "50%" }}
-                cover={<img alt="example" src={homedecor} />}
-              >
-                <Meta title="Home Decor" />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card
-                hoverable
-                style={{ width: "75%", height: "50%" }}
-                cover={<img alt="example" src={homedecor} />}
-              >
-                <Meta title="Home Decor" />
-              </Card>
+            <Col span={3}>
+              {
+                isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(8)} />
+              }
             </Col>
           </Row>
+        </div>
+        <p><b><span>USD </span><span>300 </span></b></p>
+      </Card>
+    </Col>
+
+
+    <Col span={6} style={{paddingLeft:"2%"}}>
+    <Card
+      hoverable
+      style={{ width: "75%", height: "50%" }}
+      cover={<img alt="example" src={process.env.REACT_APP_SERVER+"/image/"+'1647805985867-jewel1.jpg'} onClick={(e) => navigateOverview(9)}/>}
+      
+    >
+      <div>
+        <Row>
+          <Col span={21}>
+            <p>
+              <span>Mobile Phone</span>
+              <span style={{ visibility: "hidden" }}>9</span>
+            </p>
+
+          </Col>
+          <Col span={3}>
+            {
+              isFavorite ? <HeartFilled /> : <HeartOutlined onClick={(e) => setFavorite(9)} />
+            }
+          </Col>
+        </Row>
+      </div>
+      <p><b><span>USD </span><span>450 </span></b></p>
+    </Card>
+  </Col>
+</Row>
         </div>
       </div>
       <div style={{
         height: "50px",
-        marginTop: "60%",
+        marginTop: "90%",
         backgroundColor:"blue",
     color:"white",
     padding:"0%"}}>

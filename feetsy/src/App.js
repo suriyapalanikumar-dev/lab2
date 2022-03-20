@@ -17,6 +17,15 @@ import Footer from './components/Footer/Footer';
 import Cart from './components/Cart/Cart';
 import Example from './components/Example.js/Example';
 import UserProfile from './components/UserProfile.js/UserProfile';
+import Enhancements from './components/Extras/enhancements';
+import SearchInitial from './components/Extras/SearchInitial';
+import SearchInitialMobile from './components/Extras/SearchInitialMobile';
+import SearchOverview from './components/Extras/SearchOverview';
+import SearchOverviewMobile from './components/Extras/SearchOverviewMobile';
+import SearchOverviewoos from './components/Extras/SearchOverviewoos';
+import ShoppDisplay from './components/Extras/ShopDisplay';
+import Purchase from './components/Purchase/purchase';
+//import SearchOverview from './components/Extras/SearchOverview';
 
 
 function App() {
@@ -28,12 +37,19 @@ function App() {
     <Route path="/sell" element={<CheckName/>} />
     <Route path="/shopdetails" element={<ShopDisplay/>} />
     <Route path="/dashboard" element ={<Dashboard/>}/>
-    <Route path="/favorites" element={<Favorites/>}/>
+    <Route path="/favorites" element={<Enhancements/>}/>
     <Route path="/shopoverview" element = {<ShoppingItemOverview/>}/>
     <Route path="/footer" element={<Footer/>}/>
     <Route path="/cart" element={<Cart/>}/>
     <Route path="/example" element={<Example/>}/>
     <Route path="/profile" element={<UserProfile/>}/>
+    <Route path="/searchoverview" element={<SearchInitial/>}/>
+    <Route path="/searchoverrview" element={<SearchInitialMobile/>}/>
+    <Route path="/summaryoverview" element={<SearchOverview/>}/>
+    <Route path="/summaryoverrview" element={<SearchOverviewMobile/>}/>
+    <Route path="/oositem" element={<SearchOverviewoos/>}/>
+    <Route path="/shoppdetails" element={<ShoppDisplay/>}/>
+    <Route Path="/purchase" element={<Purchase/>}/>
     </Routes>
     </Router>
     </div>

@@ -30,7 +30,7 @@ const ShopDisplay = () =>{
     const [ownername, setOwnerName] = useState("")
     const [owneremail, setownerEmail] = useState("")
     const [isNotOwner, setNotOwner] = useState(false)
-    const [isClick, setisClick] = useState(false)
+    const [isClick, setisClick] = useState("hidden")
 
     useEffect(() => {
         let data={
@@ -47,10 +47,7 @@ const ShopDisplay = () =>{
                 //console.log(process.env.REACT_APP_SERVER+"/image/"+resp["data"][0]["simgname"])
                 setshopdp(process.env.REACT_APP_SERVER+"/image/"+resp["data"][0]["simgname"])
             }
-            // if(!resp["data"]["isowner"])
-            // {
-            //     setNotOwner(true)
-            // }
+
         })
         .catch(function (err){
             //alert(err)
@@ -104,13 +101,13 @@ const ShopDisplay = () =>{
             <Button type="primary"  onClick={(e) =>setmodal3Visible(true)} icon={<EditOutlined /> } >Edit Shop</Button>
 </div> */}
             <div style={{padding:"1%"}}>
-            <Button type="primary" icon={<FileAddOutlined />} onClick={(e)=>addItem(e)} disabled={isNotOwner}> Add Item </Button>
+            <Button type="primary" icon={<FileAddOutlined />} onClick={(e)=>addItem(e)} > Add Item </Button>
             </div>
             <div style={{padding:"1%"}}>
-            <Button type="primary" icon={<EditOutlined />} onClick={(e)=>editItem(e)} disabled={isNotOwner}> Edit Item </Button>
+            <Button type="primary" icon={<EditOutlined />} onClick={(e)=>editItem(e)} > Edit Item </Button>
             </div>
             <div style={{padding:"1%"}}>
-            <Button type="primary" icon={<UnorderedListOutlined />} onClick={(e)=>isClick(true)}> View Item Listing </Button>
+            <Button type="primary" icon={<UnorderedListOutlined />} onClick={(e)=>setisClick("visible")}> View Item Listing </Button>
             </div>
             </Col>
             <Col span={6}>

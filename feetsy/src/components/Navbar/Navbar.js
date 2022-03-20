@@ -21,8 +21,10 @@ const Navbar  = () =>
     const [isFavoriteEnabled, setisFavoritenabled] = useState(false)
     const [isCartEnabled, setCartEnabled] = useState(false)
     const [isLoggedOut, setLogout] = useState(false)
+    const [isFrame, setisFrame] = useState(null)
     const [isProfilePage, setProfilePage] = useState(false)
     const [isReturn,setReturn] = useState(false)
+    const [myPurchase, setPurchasePage] =useState(false)
     const loguser = useSelector(authenticateUser)
     const dispatch = useDispatch();
     
@@ -67,7 +69,7 @@ const Navbar  = () =>
     }
     if(isReturn)
     {
-        return <Navigate replace to="/"/>
+        return <Navigate replace to="/dashboard"/>
     }
 
     const logoutUser = () =>{
@@ -75,11 +77,36 @@ const Navbar  = () =>
             User:null
         }))
         setisLoggedIn(false)
+        setReturn(true)
     }
+
+    const previewOverview = (value) =>{
+        if(value=='Frame'){
+            setisFrame("Frame")
+        }
+        else{
+            setisFrame("Mobile")
+        }
+    }
+
+    if(isFrame=="Frame")
+    {
+        return <Navigate replace to="/searchoverview"/>
+    }
+    if(isFrame=="Mobile")
+    {
+        return <Navigate replace to="/searchoverrview"/>
+    }
+
 
     if(isProfilePage)
     {
         return <Navigate replace to="/profile"/>
+    }
+
+    if(myPurchase)
+    {
+        return <Navigate replace to="/Purchase"/>
     }
 
     const menu = (
@@ -91,6 +118,9 @@ const Navbar  = () =>
           <Menu.Item>
             <p onClick={(e)=>setProfilePage(true)}>Edit User Profile</p>
           </Menu.Item>
+          <Menu.Item>
+          <p onClick={(e)=>setPurchasePage(true)}>My Purchases</p>
+        </Menu.Item>
           <Menu.Item>
             <Button size="large" onClick={(e)=>logoutUser(e)}>Log Out</Button>
           </Menu.Item>
@@ -105,7 +135,7 @@ const Navbar  = () =>
                     <span className="appname" onClick={(e)=>setReturn(true)}>Etsy</span>
                 </Col>
                 <Col span={18}>
-                    <Search size="large" placeholder="Search for anything" className='searchitem' enterButton />
+                <Search size="large" placeholder="Search Anything" onSearch={(value)=>previewOverview(value)}  />
                 </Col>
 
                 <Col span={3}>
