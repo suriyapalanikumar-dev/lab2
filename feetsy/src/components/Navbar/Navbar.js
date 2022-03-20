@@ -95,7 +95,7 @@ const Navbar  = () =>
 
                 <Col span={3}>
                     
-                        {!isLoggedIn ?
+                        {(!loguser || !loguser.isLoggedIn )  ?
                             <Row>
                             <Col span={24} style={{padding:"0px"}}>
                             <Tooltip title="Sign In">

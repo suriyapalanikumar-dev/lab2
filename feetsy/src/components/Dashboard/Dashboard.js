@@ -15,7 +15,7 @@ import {
 import Navbar from "../Navbar/Navbar";
 import { useDispatch,useSelector } from 'react-redux';
 import { register } from '../../features/userSlice';
-import { authenticateUser, login, logout, dollarSelect } from '../../features/userSlice';
+import { authenticateUser, login, logout, dollarSelect,itemSelect } from '../../features/userSlice';
 
 const { Meta } = Card;
 const {Option} = Select;
@@ -28,14 +28,34 @@ const Dashboard = () => {
   const [card1id, setCard1Id] = useState("")
   const [isFavorite, setisFavorite] = useState(false)
   const [isnavigateOverview, setNavigateOverview] = useState(false)
+  const [itemdetails, setItemDetails] = useState(null)
+  const [money, setMoney] = useState("USD")
   const dispatch = useDispatch();
   const loguser = useSelector(authenticateUser)
   
-  useEffect = (() =>{
-    getItemDetails({"category":categorySelected});
-  })
+  // useEffect = (() =>{
+  //   getItemDetails({"category":categorySelected});
+  // })
   const handleChange = (value) =>{
-    console.log(`selected ${value}`);
+    if(!loguser)
+    {
+      alert("Please login before changing Currency")
+    }
+    else{
+      let data = {
+        "username" : loguser.username,
+        "userid" : loguser.userid,
+        "token":loguser.token,
+        "isLoggedIn":loguser.isLoggedIn,
+        "dollar":value
+      }
+      setMoney(value)
+      dispatch(dollarSelect(
+        data
+      ))
+    }
+
+    //setMoney(value)
   }
   const getItemDetails = (data) => {
     
@@ -46,6 +66,8 @@ const Dashboard = () => {
         setCard1price(temp["data"][0]["price"])
         setCard1Image(process.env.REACT_APP_SERVER + "/image/" + temp["data"][0]["itemphoto"])
         setCard1Id(temp["data"][0]["itemid"])
+        //console.log(temp["data"])
+        setItemDetails(temp["data"])
 
       })
       .catch(function (err) {
@@ -86,8 +108,42 @@ const Dashboard = () => {
   }
 
   const navigateOverview = (cardid) => {
-    localStorage.setItem("itemid", cardid)
-    setNavigateOverview(true)
+    let d= ""
+    if(!loguser.dollar)
+    {
+      d = "USD"
+    }
+    else{
+      d = loguser.dollar
+    }
+
+    let data = {
+      "username" : loguser.username,
+      "userid" : loguser.userid,
+      "token":loguser.token,
+      "isLoggedIn":loguser.isLoggedIn,
+      "dollar":d
+    }
+    data["itemid"] = cardid
+    // dispatch(
+    //   itemSelect(data)
+    // )
+    for (var i=0;i<itemdetails.length;i++)
+    {
+      if(itemdetails[i]["itemid"]==cardid)
+      {
+        data["itemname"] = itemdetails[i]["itemname"]
+        data["price"] = itemdetails[i]["price"]
+        data["shopname"] = itemdetails[i]["shopname"]
+        data["itemphoto"] = process.env.REACT_APP_SERVER+"/image/"+itemdetails[i]["itemphoto"]
+        data["itemcount"] = itemdetails[i]["itemcount"]
+        data["itemdesc"]= itemdetails[i]["itemdesc"]
+      }
+          dispatch(
+        itemSelect(data)
+      )
+    }
+      setNavigateOverview(true)
   }
 
   if (isnavigateOverview) {
@@ -156,15 +212,15 @@ const Dashboard = () => {
             <Col span={2}></Col>
           </Row>
         </div>
-        <div style={{ marginTop: "2%", width: "100%", height: "50%", float: "left" }}>
+        <div style={{ marginTop: "2%", width: "100%", height: "50%", float: "left", paddingLeft:"2px" }}>
           <h2><b>{categorySelected} Collection Preview</b></h2>
           <Row>
-            <Col span={6}>
+            <Col span={6} style={{paddingLeft:"2%"}}>
               <Card
                 hoverable
                 style={{ width: "75%", height: "50%" }}
-                cover={<img alt="example" src={card1Image} />}
-                onClick={(e) => navigateOverview(card1id)}
+                cover={<img alt="example" src={card1Image} onClick={(e) => navigateOverview(card1id)}/>}
+                
               >
                 <div>
                   <Row>
@@ -182,7 +238,7 @@ const Dashboard = () => {
                     </Col>
                   </Row>
                 </div>
-                <p><b><span>$</span><span>{card1price}</span></b></p>
+                <p><b><span>{money}</span><span>{card1price}</span></b></p>
               </Card>
             </Col>
             <Col span={6}>
@@ -227,6 +283,7 @@ const Dashboard = () => {
         </Col>
         <Col span = {3}>
         <Select defaultValue="USD" style={{ width: 120, padding:"3%" }} onChange={handleChange}>
+        <Option value="USD">USD</Option>
       <Option value="GBP">GBP</Option>
       <Option value="INR">INR</Option>
     </Select>
