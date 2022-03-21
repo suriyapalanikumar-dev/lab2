@@ -7,7 +7,7 @@ const Cart = () =>
 {
     const data = [{  
     Name: 'Glass Photo Frame',  
-    Price:10.99,
+    Price:"USD 10.99",
     Quantity:1,
 
     },{  

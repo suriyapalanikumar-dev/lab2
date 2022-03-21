@@ -3,7 +3,7 @@ import {Row, Col, Card, Input, Button, Modal, Select} from 'antd';
 import 'antd/dist/antd.css';
 import axios,{post} from 'axios';
 import {
-    ShopOutlined, EditOutlined, FileAddOutlined
+    ShopOutlined, EditOutlined, FileAddOutlined, BorderBottomOutlined
   } from '@ant-design/icons';
 import noimage from "../../images/noimage.png";
 import { useDispatch,useSelector } from 'react-redux';
@@ -110,7 +110,7 @@ const UserProfile = () =>{
             <br/>
             <br/>
             <label><b>Email</b></label>
-            <Input placeholder={loguser.email} style={{width:"20%", marginLeft:"2%"}} />
+            <Input placeholder="bob.holland@gmail.com" style={{width:"20%", marginLeft:"2%"}} />
             <br/>
             <br/>
             <div>

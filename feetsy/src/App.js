@@ -23,8 +23,8 @@ import SearchInitialMobile from './components/Extras/SearchInitialMobile';
 import SearchOverview from './components/Extras/SearchOverview';
 import SearchOverviewMobile from './components/Extras/SearchOverviewMobile';
 import SearchOverviewoos from './components/Extras/SearchOverviewoos';
+import Purchase from './components/Cart/Purchase';
 import ShoppDisplay from './components/Extras/ShopDisplay';
-import Purchase from './components/Purchase/purchase';
 //import SearchOverview from './components/Extras/SearchOverview';
 
 
@@ -48,8 +48,8 @@ function App() {
     <Route path="/summaryoverview" element={<SearchOverview/>}/>
     <Route path="/summaryoverrview" element={<SearchOverviewMobile/>}/>
     <Route path="/oositem" element={<SearchOverviewoos/>}/>
+    <Route path="/purchase" element={<Purchase/>}/>
     <Route path="/shoppdetails" element={<ShoppDisplay/>}/>
-    <Route Path="/purchase" element={<Purchase/>}/>
     </Routes>
     </Router>
     </div>

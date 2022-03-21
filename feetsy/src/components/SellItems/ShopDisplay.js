@@ -11,6 +11,7 @@ import ItemDisplayAdmin from './ItemDisplayadmin';
 import ItemEnrollment from './ItemEnrollment';
 import ItemUpdate from './ItemUpdate';
 import noimage from "../../images/noimage.png";
+import shopi from "../../images/shop1.jpg";
 import { useDispatch,useSelector } from 'react-redux';
 import { register } from '../../features/userSlice';
 import { authenticateUser, login, logout, shopSelect } from '../../features/userSlice';
@@ -56,7 +57,7 @@ const ShopDisplay = () =>{
     const handleUpload = (e) =>{
         e.preventDefault();
         let data = {"shopname":loguser["shopname"]}
-        setshopdp(loguser.shopimg)
+        setshopdp(shopi)
         setmodal3Visible(false)
     }
 

@@ -77,7 +77,7 @@ const Navbar  = () =>
             User:null
         }))
         setisLoggedIn(false)
-        setReturn(true)
+        //setReturn(true)
     }
 
     const previewOverview = (value) =>{
@@ -106,7 +106,7 @@ const Navbar  = () =>
 
     if(myPurchase)
     {
-        return <Navigate replace to="/Purchase"/>
+        return <Navigate replace to="/purchase"/>
     }
 
     const menu = (

@@ -49,12 +49,12 @@ const ShopProfilePicture = () =>{
             })
         })
     }
-
+    
  
     return (
         <div>
         {/*<form method="POST" action="http://localhost:4001/uploadshopdp" encType="multipart/form-data">*/}
-        <form onSubmit={(e) => uploadImage(e)}>
+        <form onSubmit={(e) => console.log(e)}>
         {/*<form onSubmit={(e) => uploadImage(e)}>*/}
         <div>
             <label>Upload profile picture</label>

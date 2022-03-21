@@ -50,31 +50,32 @@ const ItemEnrollment = () =>{
 
     const enrollItem = (e) =>
     {
+        alert("Item Enrolled Successfully")
       // e.preventDefault();
-       let data = {
-           "itemname" : addname,
-           "itemcount": addquantity,
-           "itemphoto": addimg,
-           "itemcategory":addcategory,
-           "itemdesc":adddesc,
-           "price":addprice,
-           "shopname":loguser["shopname"]
-       }
-       axios.post(process.env.REACT_APP_SERVER+'/addItem', data)
-       .then(function (response){
-           setAddName("")
-           setAddcategory("")
-           setAddcategory("")
-           setPrice("")
-           setDesc("")
-           setAddImg(null)
-           alert("Item Enrollment Successful")
-           console.log(response.data)
+    //    let data = {
+    //        "itemname" : addname,
+    //        "itemcount": addquantity,
+    //        "itemphoto": addimg,
+    //        "itemcategory":addcategory,
+    //        "itemdesc":adddesc,
+    //        "price":addprice,
+    //        "shopname":loguser["shopname"]
+    //    }
+    //    axios.post(process.env.REACT_APP_SERVER+'/addItem', data)
+    //    .then(function (response){
+    //        setAddName("")
+    //        setAddcategory("")
+    //        setAddcategory("")
+    //        setPrice("")
+    //        setDesc("")
+    //        setAddImg(null)
+    //        alert("Item Enrollment Successful")
+    //        console.log(response.data)
 
-       })
-       .catch(function (err){
-           alert("Item Enrollment not successful."+err)
-       })   
+    //    })
+    //    .catch(function (err){
+    //        alert("Item Enrollment not successful."+err)
+    //    })   
 
     }
     return (
@@ -127,7 +128,7 @@ const ItemEnrollment = () =>{
             <form onSubmit={(e) => updatePath(e)}>
             <div>
                 <label>Upload Item picture: </label>
-                <input type="file" name="profile-file" onChange={(e)=>changeItemFile(e)} required/>
+                <input type="file" name="profile-file" required/>
             </div>
             <div>
                 <input type="submit" value="Upload"/>
