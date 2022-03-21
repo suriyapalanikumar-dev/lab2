@@ -61,10 +61,12 @@ app.post("/updateprofileimgdb", profilectrl.updateprofileimage)
 app.get("/makeconnection",(req,res)=>{
   res.status(200).send({message:"Success"})
 })
-
+app.get("/",(req,res)=>{
+  res.send("welcome!")
+})
 // server listening 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 module.exports = app
