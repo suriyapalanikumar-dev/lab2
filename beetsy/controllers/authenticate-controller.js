@@ -1,78 +1,58 @@
-const connection = require("../config/database.js")
+//const connection = require("../config/db")
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
+const User = require("../model/user");
+const { response } = require('../index.js');
 
+genToken = user => {
+  return jwt.sign({
+    iss: 'suriya',
+    sub: user.id,
+    email: user.email,
+    iat: new Date().getTime(),
+    exp: new Date().setDate(new Date().getDate() + 1)
+  }, 'TOP_SECRET');
+}
+
+
+module.exports.secretuser = async(req, res) =>{
+  var authorization = req.headers.authorization.split(' ')[1],
+            decoded;
+  decoded = jwt.verify(authorization, 'TOP_SECRET');
+  console.log(decoded)
+  res.status(200).json("success")
+}
+                  
 module.exports.registeruser = async(req, res) =>{
-    const {username, email, password} = req.body
-    //var salt = bcrypt.genSaltSync(10);
-    var encryptedPassword = await bcrypt.hash(password, 10);
-    const userid = crypto.randomUUID()
-    const token = jwt.sign(
-        {user_id:userid, email },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-    );
-    
-    const sql = `INSERT INTO dbetsy.User (userid, usernaame, email, password, token) VALUES(?,?,?,?,?);`;
-    const values = [
-        userid, 
-        username,
-        email, 
-        password,
-        token
-    ]
-
-    
-    connection.query(sql, values, function (error, results, fields) {
-        if (error) {
-          console.log(error);
-          res.status(500).json({
-            message: error.sqlMessage
-          })
-        } else {
-          res.status(200).json({
-            data: results,
-            message: 'User Registered Successfully'
-          })
-        }
-      });
-    }
+  const { email, password } = req.body;
+  
+  //Check If User Exists
+  let foundUser = await User.findOne({ email });
+  if (foundUser) {
+    return res.status(403).json({ error: 'Email is already in use'});
+  }
+  const newUser = new User({ email, password})
+  await newUser.save()
+  console.log(typeof newUser)
+  console.log(newUser)
+  // Generate JWT token
+  //const token = genToken(newUser)
+  res.status(200).json({newUser})
+}
 
 module.exports.loginuser = async(req, res) =>{
   const { email, password } = req.body;
-  var message = ""
-  const sql = `select * from dbetsy.User where email= ?`;
-  connection.query(sql, [email], function (error, results, fields) {
-    //console.log(results)
-    if(error)
-    {
-      res.status(500).json({
-        message: error.sqlMessage
-      })
-    }
-    else if (results.length<1) {
-      res.status(500).json({
-        message: "Please register before logging in"
-      })
-    }
-    else {
-    if( password == results[0].password)
-    {
-      res.status(200).json({
-        data: {userid:results[0].userid, token:results[0].token, username:results[0].usernaame},
-        message: 'User Login Successful'
-      })
-    }
-    else{
-      res.status(500).json({
-        message: "Incorrect Password"
-      })
-    }
+  
+  //Check If User Exists
+  let foundUser = await User.findOne({ email });
+  if(await foundUser.matchPassword(password))
+  {
+    let token = genToken(foundUser)
+    console.log(typeof foundUser)
+    console.log(foundUser)
+    res.status(200).json({foundUser, "token":token})
   }
-  })
 }
 
 

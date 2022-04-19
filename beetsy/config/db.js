@@ -1,10 +1,20 @@
-const mongoose = require("mongoose");
-  const connectDB = async () =>{
-    const conn = await mongoose.connect("mongodb+srv://mongo:admin123@cluster0.wzi0v.mongodb.net/test?retryWrites=true&w=majority", {
-      useNewURLParser: true,
-      useUnifiedTopology : true
-    });
+const config = {};  
+const conn = `mongodb+srv://admin:admin123@cluster0.8aedd.mongodb.net/dbetsy?retryWrites=true&w=majority`;
 
-    console.log(`MongoDB connected: ${conn.connection.host}`);
-  }
-  module.exports = connectDB;
+const mongoose = require("mongoose");
+
+
+const InitiateMongoServer = async () => {
+    try {
+        await mongoose.connect(conn, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("Connected to DB !!");
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+};
+
+module.exports = InitiateMongoServer;
