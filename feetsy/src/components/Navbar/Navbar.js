@@ -2,7 +2,7 @@ import React, {Component, useState} from 'react';
 import '../../App.css';
 import { Row, Col,  Input, Button, Modal, Tooltip, Menu, Dropdown } from 'antd';
 import 'antd/dist/antd.css';
-import '../../css/Custom.css';
+import '../../css/custom.css';
 import Login from '../Login/Login.js';
 import {
     ShoppingCartOutlined, HeartOutlined, ShopOutlined, LoginOutlined, UserOutlined, RightSquareFilled

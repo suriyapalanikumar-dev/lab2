@@ -25,14 +25,14 @@ module.exports.secretuser = async(req, res) =>{
 }
                   
 module.exports.registeruser = async(req, res) =>{
-  const { email, password } = req.body;
+  const {name, email, password } = req.body;
   
   //Check If User Exists
   let foundUser = await User.findOne({ email });
   if (foundUser) {
     return res.status(403).json({ error: 'Email is already in use'});
   }
-  const newUser = new User({ email, password})
+  const newUser = new User({ name, email, password})
   await newUser.save()
   console.log(typeof newUser)
   console.log(newUser)

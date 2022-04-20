@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../App.css';
 import { Row, Col,  Input, Button, Modal } from 'antd';
 import 'antd/dist/antd.css';
-import '../../css/Custom.css';
+import '../../css/custom.css';
 import axios from 'axios';
 import { useDispatch,useSelector } from 'react-redux';
 import { register } from '../../features/userSlice';
@@ -46,7 +46,7 @@ const Login = () =>{
     {
         e.preventDefault();
         const data = {
-            username : name,
+            name : name,
             email : emailr,
             password : passwordr
         }
@@ -78,12 +78,11 @@ const Login = () =>{
         }
         axios.post(process.env.REACT_APP_SERVER+'/login', data)
         .then(function (response){ 
-            // localStorage.setItem("token", response["data"]["data"]["token"])
-            // localStorage.setItem("userid", response["data"]["data"]["userid"])
+            console.log(response["data"])
             dispatch(login({
-            token: response["data"]["data"]["token"],
-            userid: response["data"]["data"]["userid"],
-            username:response["data"]["data"]["username"],
+            token: response["data"]["token"],
+            userid: response["data"]["foundUser"]["_id"],
+            username:response["data"]["foundUser"]["name"],
             isLoggedIn: true
               }))
 
